@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 const Home = () => {
   return (
-    <div className="bg-[#191A1A] pb-5">
+    <div className="bg-[#191A1A] pt-[80px] pb-5">
       <Herosection />
       <Tokendisplay />
       <Footer />

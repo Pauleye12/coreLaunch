@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 const Herosection = () => {
   return (
-    <div className=" heroBG w-full pt-[25px] flex justify-center items-center pb-6 ">
+    <div className=" heroBG w-full pt-[25px] flex justify-center items-center pb-16 ">
       {" "}
       <div className="max-w-[1100px] w-full flex-col flex items-center gap-6 ">
         <div className="text-center font-bold text-5xl flex flex-col items-center gap-1 text-[#ffffff] uppercase  ">
@@ -11,9 +12,12 @@ const Herosection = () => {
           <img src="./images/rocket.gif" alt="" />
         </div>
         <button className="uppercase heroBTN mt-2 p-[1px]  rounded-md h-[48px] ">
-          <p className=" bg-[#353535] h-full rounded-md text-center flex justify-center items-center px-3 ">
+          <Link
+            to={"/launch"}
+            className=" bg-[#353535] h-full rounded-md text-center flex justify-center items-center px-3 "
+          >
             Launch new token
-          </p>
+          </Link>
         </button>
       </div>
     </div>
