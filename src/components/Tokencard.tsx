@@ -1,6 +1,11 @@
+import { Link } from "react-router-dom";
+
 const Tokencard = () => {
   return (
-    <div className="max-w-[390px] w-full h-[200px] rounded-lg ">
+    <Link
+      to={"/token/1"}
+      className="max-w-[390px] w-full h-[200px] rounded-lg "
+    >
       <div className="h-full rounded-t-lg tokenBG  ">
         <div className="flex items-center w-full justify-start px-3 py-5 gap-5">
           <img src="./images/tokenImg.png" alt="" />
@@ -29,7 +34,7 @@ const Tokencard = () => {
         </p>
         <img src="./images/share.png" alt="" />
       </div>
-    </div>
+    </Link>
   );
 };
 

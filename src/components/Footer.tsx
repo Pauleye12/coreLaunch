@@ -1,6 +1,9 @@
 const Footer = () => {
   return (
-    <div className="w-full px-5 flex justify-center items-center bg-[#191A1A]   ">
+    <div className="w-full px-5 flex-col flex justify-center items-center bg-[#191A1A]   ">
+      <div className="flex max-w-[1100px] justify-center items-center mb-5 ">
+        <img src="../images/Core 2.png" alt="" />
+      </div>
       <div className="max-w-[1100px] w-full flex justify-between items-center text-xs text-white uppercase border-t border-[#ffffff61] py-5">
         <p className="text-[#ffffff84]"> copyright 2024 </p>
         <p> Terms and conditions</p>

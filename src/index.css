@@ -17,7 +17,7 @@ body {
 
 .heroBG {
   background-image: linear-gradient(to bottom, #191a1aac, #191a1a5a),
-    url("./images/heroBG.jpg");
+    url("../images/heroBG.jpg");
 
   background-repeat: no-repeat;
   background-position: center;
@@ -25,7 +25,7 @@ body {
 }
 .rocketBG {
   background-image: linear-gradient(to bottom, #191a1a90, #191a1a35),
-    url("./images/rocketBG.jpg");
+    url("../images/rocketBG.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -34,7 +34,7 @@ body {
 
 .tokenBG {
   background-image: linear-gradient(to bottom, #191a1a90, #191a1a35),
-    url("./images/chart.png");
+    url("../images/chart.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -46,7 +46,7 @@ body {
 
 .launchBG {
   background-image: linear-gradient(to bottom, #191a1ad3, #191a1a9a),
-    url("./images/launchTokenBG.png");
+    url("../images/launchTokenBG.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -65,4 +65,10 @@ body {
 }
 .imgShdw {
   box-shadow: 0px 0px 8px 0 #00ecff99;
+}
+.tokenInfoShdw {
+  box-shadow: 0px 1px 5px 0 #00000040;
+}
+.greenShdw {
+  box-shadow: 0px 0px 6px 0 #00ecff;
 }
