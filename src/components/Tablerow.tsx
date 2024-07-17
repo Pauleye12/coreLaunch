@@ -1,5 +1,3 @@
-import React from "react";
-
 const Tablerow = () => {
   const trade = "BUY";
   return (

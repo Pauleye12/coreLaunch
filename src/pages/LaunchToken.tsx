@@ -1,5 +1,3 @@
-import React from "react";
-
 const LaunchToken = () => {
   return (
     <div className=" h-screen pt-[120px] flex gap-5 launchBG relative">
