@@ -1,6 +1,6 @@
 const LaunchToken = () => {
   return (
-    <div className=" h-screen pt-[120px] flex flex-col md:flex-row gap-5 launchBG relative">
+    <div className=" md:h-screen pt-[120px] flex flex-col md:flex-row gap-5 launchBG relative">
       <img
         className="absolute bottom-0 left-0 "
         src="./images/launchbottom.png"
@@ -18,7 +18,7 @@ const LaunchToken = () => {
         </div>
       </div>
       <div className="md:w-[50%] p-3 md:overflow-y-auto ">
-        <div className="border formShdw bg-[#191A1A] border-[#00ECFF] rounded-3xl max-w-[550px]  w-full  px-[70px] py-[50px] overflow-y-auto h-[600px] flex flex-col gap-5  ">
+        <div className="border formShdw bg-[#191A1A] border-[#00ECFF] rounded-3xl max-w-[550px]   w-full  px-[70px] py-[50px] flex flex-col gap-5  ">
           <h1>Create New Token</h1>
           <div className="w-full flex flex-col items-center border border-[#F8F8F8] border-dashed gap-4  py-5 px-2 rounded-3xl ">
             <img src="./images/uploadImg1.png" alt="" />

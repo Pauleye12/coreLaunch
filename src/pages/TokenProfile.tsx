@@ -6,8 +6,8 @@ const TokenProfile = () => {
   return (
     <div className="bg-[#191A1A] px-5 pt-[80px] flex justify-center pb-5">
       <div className="max-w-[1200px] pt-10 w-full flex flex-col gap-10 ">
-        <div className="flex gap-7 justify-between">
-          <div className="bg-[#1C4141] text-white flex flex-col gap-5 p-5 max-w-[50%] w-full rounded-2xl">
+        <div className="flex flex-col md:flex-row gap-7 justify-between">
+          <div className="bg-[#1C4141] text-white flex flex-col gap-5 p-5 md:max-w-[50%] w-full rounded-2xl">
             <div className="flex gap-3 items-center ">
               <img src="../images/memeland.png" alt="" />
               <div className="flex flex-col items-start gap-1 ">
@@ -25,7 +25,7 @@ const TokenProfile = () => {
               interdum mi. Sed porta eros eros, egestas auctor justo feugiat
               consectetur.
             </p>
-            <div className="flex justify-between gap-5 w-full items-center">
+            <div className="flex mt-4 md:m-0 flex-col md:flex-row justify-between gap-3 w-full md:items-center">
               <div className="flex items-center gap-2">
                 <img src="../images/user.png" alt="" />
                 <p className="text-sm">
@@ -33,12 +33,12 @@ const TokenProfile = () => {
                   <span className="ml-[2px] text-[#8BF0B7]">0xDaD...B433d</span>
                 </p>
               </div>
-              <button className="text-white bg-[#182323] px-3 py-[6px] flex items-center gap-1 rounded-md">
+              <button className="text-white bg-[#182323] px-3 py-[6px] flex items-center w-max gap-1 rounded-md">
                 <img src="../images/copy2.png" alt="" /> 0xDaD...B433d
               </button>
             </div>
           </div>
-          <div className="max-w-[50%] bg-[#191A1A] text-[12px] py-7 px-7 flex flex-col gap-7 w-full rounded-2xl border border-[#00ECFF] uploadShdw ">
+          <div className="md:max-w-[50%] bg-[#191A1A] text-[12px] py-7 px-7 flex flex-col gap-7 w-full rounded-2xl border border-[#00ECFF] uploadShdw ">
             <div>
               <div className="bg-[#00ECFF05] tokenInfoShdw w-max rounded-lg flex gap-3 py-2 px-3 ">
                 <button className="rounded-lg px-6 py-2 bg-[#000000] ">
@@ -85,7 +85,7 @@ const TokenProfile = () => {
           <h1>Price Chart</h1>
         </div>
         <div className="border border-white p-6 flex flex-col gap-5 greenShdw w-full rounded-xl ">
-          <div className="flex w-full justify-between  ">
+          <div className="flex md:flex-row flex-col gap-5 w-full justify-between  ">
             <div className="flex gap-5 items-center w-full ">
               <h1 className="font-semibold text-[20px] ">Trades</h1>{" "}
               <div className="border border-white rounded-lg flex justify-between items-center p-3 max-w-[110px] w-full h-[37px] ">
