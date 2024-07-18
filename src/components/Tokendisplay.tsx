@@ -4,7 +4,7 @@ const Tokendisplay = () => {
   const nums = [1, 2, 3, 4, 5, 6];
   return (
     <div className="bg-[#191A1A] h-fit px-8 pt-40 w-full flex flex-col items-center mb-5 gap-10">
-      <div className="flex w-full justify-between  ">
+      <div className="flex w-full gap-4 justify-between  ">
         <div className="text-sm font-medium font-[chakra-petch] flex gap-5 w-full items-center ">
           <div className="border border-white rounded-lg flex justify-between items-center gap-2 px-3 max-w-[177px] w-full h-[40px] py-2 ">
             <img src="../images/navsearch.png" alt="" />

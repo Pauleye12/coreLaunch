@@ -5,7 +5,7 @@ const Navbar = () => {
       <div className="max-w-[1200px] w-full flex justify-between items-center ">
         <div className="flex gap-6 items-center">
           <img src="../images/navlogo.png" alt="" />{" "}
-          <div className="flex gap-2 uppercase">
+          <div className="md:flex gap-2 hidden uppercase">
             {" "}
             <Link to={"/"} className="text-[#00ECFF]">
               Home

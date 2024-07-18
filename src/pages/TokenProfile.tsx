@@ -103,7 +103,7 @@ const TokenProfile = () => {
               <img src="../images/nextarrow.png" alt="" />
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full overflow-x-auto ">
             <table className="w-full border-separate border-spacing-x-0 border-spacing-y-6 ">
               <tr className=" bg-[#00ECFF05] rounded-2xl text-start ">
                 <th className=" rounded-l-2xl pl-10 px-3 py-4 text-start ">

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 const Herosection = () => {
   return (
-    <div className=" heroBG w-full pt-[25px] flex justify-center items-center pb-16 ">
+    <div className=" heroBG w-full  md:pt-[20px] flex justify-center items-center pb-16 h-screen ">
       {" "}
-      <div className="max-w-[1100px] w-full flex-col flex items-center gap-6 ">
+      <div className="max-w-[1100px] w-full flex-col flex items-center gap-6 justify-between md:justify-center h-[85%] md:h-auto ">
         <div className="text-center font-bold text-5xl flex flex-col items-center gap-1 text-[#ffffff] uppercase  ">
           <h1>Lauch With confidence </h1>
           <h1>Build on core</h1>
