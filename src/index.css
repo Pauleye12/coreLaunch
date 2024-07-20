@@ -14,6 +14,15 @@
 body {
   background-color: #191a1a;
 }
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-arrows {
+  -moz-appearance: textfield;
+}
 
 .heroBG {
   background-image: linear-gradient(to bottom, #191a1aac, #191a1a5a),

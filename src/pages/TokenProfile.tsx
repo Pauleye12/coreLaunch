@@ -1,8 +1,25 @@
+import { useState } from "react";
 import Footer from "../components/Footer";
+import Modal from "../components/Modal";
+import Loader from "../components/Loader";
 import Tablerow from "../components/Tablerow";
 
 const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const ModalText = {
+  mainText: "Token Swap Successful",
+  subText: "Congratulations! Your token has been successfully swapped.",
+};
 const TokenProfile = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+
+  const handleTradeToken = () => {
+    setShowLoader(true);
+    setTimeout(() => {
+      setShowLoader(false);
+      setShowModal(true);
+    }, 3000);
+  };
   return (
     <div className="bg-[#191A1A] px-5 pt-[80px] flex justify-center pb-5">
       <div className="max-w-[1200px] pt-10 w-full flex flex-col gap-10 ">
@@ -56,7 +73,7 @@ const TokenProfile = () => {
                 </div>
                 <div className="flex font-medium justify-between gap-5 items-center w-full ">
                   <input
-                    className="bg-transparent w-[60%] text-[36px] outline-none"
+                    className="bg-transparent no-arrows w-[60%] text-[36px] outline-none"
                     type="number"
                     placeholder="0.00"
                     name=""
@@ -76,7 +93,10 @@ const TokenProfile = () => {
                 <img src="../images/settings.png" alt="" /> Set max slippage
               </p>
             </div>
-            <button className="w-full border border-white text-center h-[65px] flex justify-center items-center bg-[#00ECFF05] rounded-lg ">
+            <button
+              onClick={handleTradeToken}
+              className="w-full border border-white text-center h-[65px] flex justify-center items-center bg-[#00ECFF05] rounded-lg "
+            >
               Place trade
             </button>
           </div>
@@ -123,6 +143,8 @@ const TokenProfile = () => {
         </div>
         <Footer />
       </div>
+      {showModal && <Modal text={ModalText} setShowModal={setShowModal} />}
+      {showLoader && <Loader text="Swapping Token..." />}
     </div>
   );
 };

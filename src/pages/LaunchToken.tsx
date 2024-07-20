@@ -1,4 +1,23 @@
+import { useState } from "react";
+import Modal from "../components/Modal";
+import Loader from "../components/Loader";
+// import Loader from "../components/Loader";
+
+const ModalText = {
+  mainText: "Token Successfully Created",
+  subText: "Congratulations! Your token has been successfully created.",
+};
 const LaunchToken = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+
+  const handleCreateToken = () => {
+    setShowLoader(true);
+    setTimeout(() => {
+      setShowLoader(false);
+      setShowModal(true);
+    }, 3000);
+  };
   return (
     <div className=" md:h-screen pt-[120px] flex flex-col md:flex-row gap-5 launchBG relative">
       <img
@@ -99,11 +118,16 @@ const LaunchToken = () => {
               id=""
             />
           </div>
-          <button className="w-full bg-[#353535] border border-[#00ecff] uploadShdw text-lg font-medium rounded-xl py-4 px-4 mt-2 ">
+          <button
+            onClick={handleCreateToken}
+            className="w-full bg-[#353535] border border-[#00ecff] uploadShdw text-lg font-medium rounded-xl py-4 px-4 mt-2 "
+          >
             Create Token
           </button>
         </div>
       </div>
+      {showModal && <Modal text={ModalText} setShowModal={setShowModal} />}
+      {showLoader && <Loader text="Creating Token..." />}
     </div>
   );
 };
