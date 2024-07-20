@@ -1,5 +1,21 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAccount } from "wagmi";
+
 const Herosection = () => {
+  const { open } = useWeb3Modal();
+  const { address } = useAccount();
+  const navigate = useNavigate();
+  const handleLaunchToken = () => {
+    if (address) {
+      navigate("/launch");
+    } else {
+      open();
+      // navigate("/launch");
+      address ? navigate("/launch") : null;
+    }
+  };
+
   return (
     <div className=" heroBG w-full  md:pt-[20px] flex justify-center items-center pb-16 h-screen ">
       {" "}
@@ -11,13 +27,13 @@ const Herosection = () => {
         <div className="rocketBG w-[320px] h-[370px] flex justify-center items-center rounded-2xl border-2 border-[#00ECFF] ">
           <img src="./images/rocket.gif" alt="" />
         </div>
-        <button className="uppercase heroBTN mt-2 p-[1px]  rounded-md h-[48px] ">
-          <Link
-            to={"/launch"}
-            className=" bg-[#353535] h-full rounded-md text-center flex justify-center items-center px-3 "
-          >
+        <button
+          onClick={handleLaunchToken}
+          className="uppercase heroBTN mt-2 p-[1px]  rounded-md h-[48px] "
+        >
+          <span className=" bg-[#353535] h-full rounded-md text-center flex justify-center items-center px-3 ">
             Launch new token
-          </Link>
+          </span>
         </button>
       </div>
     </div>

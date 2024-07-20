@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+
+import { useAccount } from "wagmi";
+
 const Navbar = () => {
+  const { open } = useWeb3Modal();
+  // const { disconnect } = useDisconnect();
+  const { address } = useAccount();
   return (
     <div className="w-full z-10 fixed top-0 left-0 flex justify-center items-center px-7 bg-[#161616] border-b border-[#ffffff] h-[80px] ">
       <div className="max-w-[1200px] w-full flex justify-between items-center ">
@@ -16,8 +23,11 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex gap-3">
-          <button className="px-5 py-1 border-r border-[#ffffff">
-            Connect Wallet
+          <button
+            onClick={() => open()}
+            className="px-5 py-1 border-r border-[#ffffff"
+          >
+            {address ? "Connected" : "Connect Wallet"}
           </button>
           <div className="flex justify-center items-center">
             <input
