@@ -7,7 +7,7 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ text, setShowModal }) => {
   return (
-    <div className="absolute top-0 left-0 w-full flex justify-center items-center pt-[90px] bg-[#00000033] h-full backdrop-blur-sm ">
+    <div className="fixed top-0 left-0 w-full flex justify-center items-center pt-[90px] bg-[#00000033] h-full backdrop-blur-sm ">
       <div className="p-[1px] rounded-xl heroBTN ">
         <div className="h-[450px] px-5 py-7 rounded-xl launchBG flex items-end relative ">
           <button

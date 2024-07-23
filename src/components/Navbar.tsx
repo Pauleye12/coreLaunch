@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-
+import { useState } from "react";
 import { useAccount } from "wagmi";
+// import { Link as ScrollLink, Element } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 
 const Navbar = () => {
   const { open } = useWeb3Modal();
   // const { disconnect } = useDisconnect();
   const { address } = useAccount();
+  const [activeLink, setActiveLink] = useState<string>("/");
+
+  // Handle click event
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link);
+  };
   return (
     <div className="w-full z-10 fixed top-0 left-0 flex justify-center items-center px-7 bg-[#161616] border-b border-[#ffffff] h-[80px] ">
       <div className="max-w-[1200px] w-full flex justify-between items-center ">
@@ -16,10 +24,26 @@ const Navbar = () => {
           </Link>
           <div className="md:flex gap-2 hidden uppercase">
             {" "}
-            <Link to={"/"} className="text-[#00ECFF]">
+            <Link
+              onClick={() => handleLinkClick("/")}
+              to={"/"}
+              className={activeLink === "/" ? "text-[#00ECFF] " : ""}
+            >
               Home
             </Link>{" "}
-            <Link to={"/"}>Tokens</Link>{" "}
+            <ScrollLink
+              onClick={() => handleLinkClick("tokens")}
+              className={
+                activeLink === "tokens"
+                  ? "text-[#00ECFF] cursor-pointer "
+                  : "cursor-pointer"
+              }
+              to="tokens"
+              smooth={true}
+              duration={500}
+            >
+              Tokens
+            </ScrollLink>{" "}
           </div>
         </div>
         <div className="flex gap-3">
