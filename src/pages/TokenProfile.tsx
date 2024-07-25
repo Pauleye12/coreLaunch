@@ -3,6 +3,8 @@ import Footer from "../components/Footer";
 import Modal from "../components/Modal";
 import Loader from "../components/Loader";
 import Tablerow from "../components/Tablerow";
+import BuyModal from "../components/BuyModal";
+import SellModal from "../components/SellModal";
 
 // const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const mockTableData = [
@@ -312,6 +314,12 @@ const TokenProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [tradeAction, setTradeAction] = useState("buy");
+  const [validAmount, setValidAmount] = useState(true);
+
+  //Amount Input
+  const [passedSellAmount, setPassedSellAmount] = useState<number>(0);
+
+  const [passedBuyAmount, setPassedBuyAmount] = useState<number>(0);
 
   //Table pagination shenenigans
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -339,12 +347,38 @@ const TokenProfile = () => {
 
   // const [copied, setCopied] = useState(true);
 
-  const handleTradeToken = () => {
-    setShowLoader(true);
-    setTimeout(() => {
-      setShowLoader(false);
-      setShowModal(true);
-    }, 3000);
+  // const handleTradeToken = () => {
+  //   setShowLoader(true);
+  //   setTimeout(() => {
+  //     setShowLoader(false);
+  //     setShowModal(true);
+  //   }, 3000);
+  // };
+
+  const handleBuy = () => {
+    if (passedBuyAmount > 0) {
+      setValidAmount(true);
+      setShowLoader(true);
+      setTimeout(() => {
+        setShowLoader(false);
+        setShowModal(true);
+      }, 3000);
+    } else {
+      setValidAmount(false);
+    }
+  };
+
+  const handleSell = () => {
+    if (passedSellAmount > 0) {
+      setValidAmount(true);
+      setShowLoader(true);
+      setTimeout(() => {
+        setShowLoader(false);
+        setShowModal(true);
+      }, 3000);
+    } else {
+      setValidAmount(false);
+    }
   };
 
   const handleCopyTokenAddress = async () => {
@@ -364,6 +398,16 @@ const TokenProfile = () => {
     //   alert("No token address found");
     // }
   };
+
+  const BuyDetails = {
+    walletBalance: "243.00",
+    tokenName: "MEME",
+  };
+
+  const SellDetails = {
+    walletBalance: "243000000.00",
+    tokenName: "MEME",
+  };
   return (
     <div className="bg-[#191A1A] px-5 pt-[80px] flex justify-center">
       <div className="max-w-[1200px] pt-10 w-full flex flex-col gap-10 ">
@@ -377,7 +421,7 @@ const TokenProfile = () => {
                 <p className="text-[#A7A7A7] text-sm  ">29/06/2024</p>
               </div>
             </div>
-            <p className="text-sm w-full leading-6 ">
+            <p className="text-sm w-full leading-7 tracking-wider  ">
               Memeland (MEME) is a community-driven cryptocurrency celebrating
               internet culture. Use MEME to trade rare meme NFTs, earn rewards,
               and participate in a vibrant meme economy. Join the fun and power
@@ -409,7 +453,7 @@ const TokenProfile = () => {
             </div>
           </div>
           <div className="md:max-w-[50%] w-full">
-            <div className=" bg-[#191A1A] text-[12px] py-7 px-7 flex flex-col gap-7 w-full rounded-2xl border border-[#0f1c1d] uploadShdw ">
+            <div className=" bg-[#191A1A] text-[12px] py-4 px-7 flex flex-col gap-4 w-full rounded-2xl border border-[#0f1c1d] uploadShdw ">
               <div>
                 <div className="bg-[#00ECFF05] tokenInfoShdw w-max rounded-lg flex gap-3 py-2 px-3 ">
                   <button
@@ -435,50 +479,45 @@ const TokenProfile = () => {
                 </div>
               </div>
               <div className="flex flex-col w-full gap-2 items-end ">
-                <div className="bg-[#00ECFF05] tokenInfoShdw rounded-xl px-6 py-8 flex flex-col gap-[2px] w-full ">
-                  <div className="flex justify-between gap-5 items-center w-full ">
-                    <p>From</p> <img src="../images/Core 3.png" alt="" />
-                  </div>
-                  <div className="flex font-medium justify-between gap-5 items-center w-full ">
-                    <input
-                      className="bg-transparent no-arrows w-[60%] text-[28px] md:text-[36px] outline-none"
-                      type="number"
-                      placeholder="0.00"
-                      name=""
-                      id=""
-                    />{" "}
-                    <div className="flex text-2xl md:text-3xl gap-2 items-center">
-                      <p className="uppercase">MEME</p>{" "}
-                      <img src="../images/tokenLogo.png" alt="" />
-                    </div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center w-full ">
-                    <p>Available</p>
-                    <p className="uppercase">2,528 CORE</p>
-                  </div>
-                </div>
+                {tradeAction === "buy" ? (
+                  <BuyModal
+                    BuyDetails={BuyDetails}
+                    setPassedAmount={setPassedBuyAmount}
+                    passedAmount={passedBuyAmount ?? 0}
+                  />
+                ) : (
+                  <SellModal
+                    SellDetails={SellDetails}
+                    setPassedAmount={setPassedSellAmount}
+                    passedAmount={passedSellAmount ?? 0}
+                  />
+                )}
+
                 <p className="w-full flex gap-1 justify-end items-center ">
                   <img src="../images/settings.png" alt="" /> Set max slippage
                 </p>
               </div>
+              {!validAmount && (
+                <p className="text-red-500">Enter a valid amount to swap</p>
+              )}
               <button
-                onClick={handleTradeToken}
-                className="w-full border border-white text-center h-[65px] flex justify-center items-center bg-[#00ECFF05] rounded-lg "
+                onClick={tradeAction === "buy" ? handleBuy : handleSell}
+                className="w-full border border-white text-center h-[55px] flex justify-center items-center bg-[#00ECFF05] rounded-lg "
               >
                 Place trade
               </button>
-            </div>
-            <div className="w-full flex flex-col gap-2 mt-5 items-center ">
-              <p className="w-full">
-                Bonding Curve Progress: {bondingPercentage}%
-              </p>
-              <div className="h-5 bg-[#1C4141] rounded-full w-full ">
-                <div
-                  className="h-full bg-[#00ECFF] rounded-full"
-                  style={{
-                    width: `${bondingPercentage}%`,
-                  }}
-                ></div>
+              <div className="w-full flex flex-col gap-2 items-center ">
+                <p className="w-full">
+                  Bonding Curve Progress: {bondingPercentage}%
+                </p>
+                <div className="h-3 bg-[#1C4141] rounded-full w-full ">
+                  <div
+                    className="h-full bg-[#00ECFF] rounded-full"
+                    style={{
+                      width: `${bondingPercentage}%`,
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>

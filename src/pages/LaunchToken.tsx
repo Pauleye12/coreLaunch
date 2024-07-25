@@ -1,22 +1,50 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Modal from "../components/Modal";
 import Loader from "../components/Loader";
 // import Loader from "../components/Loader";
 
-const ModalText = {
-  mainText: "Token Successfully Created",
-  subText: "Congratulations! Your token has been successfully created.",
-};
+interface tokenDets {
+  tokenName: string;
+  tokenTicker: string;
+  tokenDescription: string;
+  twitterLink: string;
+  telegramLink: string;
+  websiteLink: string;
+}
 const LaunchToken = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
-
-  const handleCreateToken = () => {
+  const [tokenDetail, setTokenDetails] = useState<tokenDets>({
+    tokenName: "",
+    tokenTicker: "",
+    tokenDescription: "",
+    twitterLink: "",
+    telegramLink: "",
+    websiteLink: "",
+  });
+  const handleCreateToken = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setShowLoader(true);
     setTimeout(() => {
       setShowLoader(false);
       setShowModal(true);
     }, 3000);
+    console.log(tokenDetail);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    detail: string
+  ) => {
+    setTokenDetails((prev) => ({
+      ...prev,
+      [detail]: e.target.value,
+    }));
+  };
+
+  const ModalText = {
+    mainText: ` ${tokenDetail.tokenName} Token Successfully Created`,
+    subText: `Congratulations! Your token ${tokenDetail.tokenTicker} has been successfully created.`,
   };
   return (
     <div className=" md:h-screen pt-[120px] flex flex-col md:flex-row gap-5 launchBG relative">
@@ -37,7 +65,10 @@ const LaunchToken = () => {
         </div>
       </div>
       <div className="md:w-[50%] p-3 md:overflow-y-auto ">
-        <div className="border formShdw bg-[#191A1A] border-[#00ECFF] rounded-3xl max-w-[550px]   w-full  px-[70px] py-[50px] flex flex-col gap-5  ">
+        <form
+          onSubmit={handleCreateToken}
+          className="border formShdw bg-[#191A1A] border-[#00ECFF] rounded-3xl max-w-[550px]   w-full  px-[70px] py-[50px] flex flex-col gap-5  "
+        >
           <h1>Create New Token</h1>
           <div className="w-full flex flex-col items-center border border-[#F8F8F8] border-dashed gap-4  py-5 px-2 rounded-3xl ">
             <img src="./images/uploadImg1.png" alt="" />
@@ -50,27 +81,36 @@ const LaunchToken = () => {
           <input
             className=" border border-[#F8F8F8] rounded-xl text-lg font-medium bg-transparent px-4 w-full py-3 outline-none "
             placeholder="Token name"
+            required
+            value={tokenDetail.tokenName}
             type="text"
+            onChange={(e) => handleChange(e, "tokenName")}
             name=""
             id=""
           />
           <input
             className=" border border-[#F8F8F8] rounded-xl text-lg font-medium bg-transparent px-4 w-full py-3 outline-none "
             placeholder="Token ticker"
+            value={tokenDetail.tokenTicker}
             type="text"
+            required
+            onChange={(e) => handleChange(e, "tokenTicker")}
             name=""
             id=""
           />
           <input
             className=" border border-[#F8F8F8] rounded-xl text-lg font-medium bg-transparent px-4 w-full py-3 outline-none "
             placeholder="Token description"
+            value={tokenDetail.tokenDescription}
             type="text"
+            required
+            onChange={(e) => handleChange(e, "tokenDescription")}
             name=""
             id=""
           />
           <div className="flex justify-center gap-2 items-center">
             <span className="h-[2px] lineBG w-20 rounded-sm "></span>
-            <p className="text-lg font-medium text-center ">Connect Wallet</p>
+            <p className="text-lg font-medium text-center ">Connect Socials</p>
             <span className="h-[2px] lineBG2 w-20 rounded-sm "></span>
           </div>
           <div className=" border border-[#F8F8F8] rounded-xl text-lg font-medium bg-transparent pr-4 w-full  overflow-clip flex gap-2 ">
@@ -83,7 +123,9 @@ const LaunchToken = () => {
             <input
               className="outline-none px-3 w-full py-3 bg-transparent"
               type="url"
+              onChange={(e) => handleChange(e, "twitterLink")}
               placeholder="Twitter link"
+              value={tokenDetail.twitterLink}
               name=""
               id=""
             />
@@ -98,7 +140,9 @@ const LaunchToken = () => {
             <input
               className="outline-none px-3 w-full py-3 bg-transparent"
               type="url"
+              onChange={(e) => handleChange(e, "telegramLink")}
               placeholder="Telegram link"
+              value={tokenDetail.telegramLink}
               name=""
               id=""
             />
@@ -113,18 +157,20 @@ const LaunchToken = () => {
             <input
               className="outline-none px-3 w-full py-3 bg-transparent"
               type="url"
+              onChange={(e) => handleChange(e, "websiteLink")}
               placeholder="Website link"
+              value={tokenDetail.websiteLink}
               name=""
               id=""
             />
           </div>
           <button
-            onClick={handleCreateToken}
+            type="submit"
             className="w-full bg-[#353535] border border-[#00ecff] uploadShdw text-lg font-medium rounded-xl py-4 px-4 mt-2 "
           >
             Create Token
           </button>
-        </div>
+        </form>
       </div>
       {showModal && <Modal text={ModalText} setShowModal={setShowModal} />}
       {showLoader && <Loader text="Creating Token..." />}
