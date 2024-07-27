@@ -3,7 +3,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 // import { Link as ScrollLink, Element } from "react-scroll";
-import { Link as ScrollLink } from "react-scroll";
+// import { Link as ScrollLink } from "react-scroll";
 
 const Navbar = () => {
   const { open } = useWeb3Modal();
@@ -24,26 +24,27 @@ const Navbar = () => {
           </Link>
           <div className="md:flex gap-2 hidden uppercase">
             {" "}
-            <Link
+            <a
               onClick={() => handleLinkClick("/")}
-              to={"/"}
-              className={activeLink === "/" ? "text-[#00ECFF] " : ""}
+              href="/#home"
+              className="hover:text-[#00ECFF]"
             >
               Home
-            </Link>{" "}
-            <ScrollLink
+            </a>{" "}
+            <a
               onClick={() => handleLinkClick("tokens")}
               className={
                 activeLink === "tokens"
                   ? "text-[#00ECFF] cursor-pointer "
                   : "cursor-pointer"
               }
-              to="tokens"
-              smooth={true}
-              duration={500}
+              href="/#tokens"
+              // to="tokens"
+              // smooth={true}
+              // duration={500}
             >
               Tokens
-            </ScrollLink>{" "}
+            </a>{" "}
           </div>
         </div>
         <div className="flex gap-3">

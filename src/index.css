@@ -13,6 +13,7 @@
 }
 body {
   background-color: #191a1a;
+  scroll-behavior: smooth;
 }
 .no-arrows::-webkit-outer-spin-button,
 .no-arrows::-webkit-inner-spin-button {

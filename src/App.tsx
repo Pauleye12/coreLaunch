@@ -1,5 +1,6 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
+import AutoScroll from "./components/AutoScroll";
 import Home from "./pages/Home";
 import LaunchToken from "./pages/LaunchToken";
 import TokenProfile from "./pages/TokenProfile";
@@ -62,6 +63,7 @@ const App = () => {
           </Routes>
         </Router>
       </QueryClientProvider>
+      <AutoScroll />
     </WagmiProvider>
   );
 };
