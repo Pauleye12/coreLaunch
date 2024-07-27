@@ -10,8 +10,10 @@ import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 
 import { WagmiProvider } from "wagmi";
-import { arbitrum, mainnet } from "wagmi/chains";
+import { coreDao } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { type Chain } from 'viem'
 
 // import { config } from "../config";
 
@@ -26,8 +28,32 @@ const metadata = {
   url: "https://web3modal.com", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
+const coreDaoTestnet = {
+  id: 1115,
+  name: 'Core Dao Testnet',
+  nativeCurrency: { name: 'TCore', symbol: 'tCore', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://rpc.test.btcs.network'] },
+  },
+  blockExplorers: {
+    default: { name: 'Core Testnet Scan', url: 'https://scan.test.btcs.network/' },
+  },
+  contracts: {
+    ensRegistry: {
+      address: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+    },
+    ensUniversalResolver: {
+      address: '0xE4Acdd618deED4e6d2f03b9bf62dc6118FC9A4da',
+      blockCreated: 16773775,
+    },
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 14353601,
+    },
+  },
+} as const satisfies Chain
 
-const chains = [mainnet, arbitrum] as const;
+const chains = [coreDao, coreDaoTestnet] as const;
 const config = defaultWagmiConfig({
   chains,
   projectId,
@@ -44,12 +70,6 @@ createWeb3Modal({
 
 const App = () => {
   return (
-    // <div className="bg-[#191a1a]">
-
-    //   <Navbar />
-    //   {/* <Home /> */}
-    //   <LaunchToken />
-    // </div>
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <Router>
