@@ -1,35 +1,149 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
 import Modal from "../components/Modal";
 import Loader from "../components/Loader";
-// import Loader from "../components/Loader";
+import Axios from "axios";
+import { Address, parseEther } from "viem";
+import { useClient, useWriteContract } from "wagmi";
+import { readContract, waitForTransactionReceipt } from "viem/actions";
+import { getCurveConfig } from "../utils/helper";
 
-interface tokenDets {
+interface tokenDetails {
   tokenName: string;
   tokenTicker: string;
   tokenDescription: string;
+  target: string;
   twitterLink: string;
   telegramLink: string;
   websiteLink: string;
 }
+interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
+}
+const defaultTokenDetails = {
+  tokenName: "",
+  tokenTicker: "",
+  tokenDescription: "",
+  target: "",
+  twitterLink: "",
+  telegramLink: "",
+  websiteLink: "",
+}
+
 const LaunchToken = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
-  const [tokenDetail, setTokenDetails] = useState<tokenDets>({
-    tokenName: "",
-    tokenTicker: "",
-    tokenDescription: "",
-    twitterLink: "",
-    telegramLink: "",
-    websiteLink: "",
-  });
-  const handleCreateToken = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setShowLoader(true);
-    setTimeout(() => {
+  const [tokenDetail, setTokenDetails] = useState<tokenDetails>(defaultTokenDetails);
+
+  const { writeContractAsync } = useWriteContract();
+  const client = useClient();
+
+  const imageRef = useRef<HTMLInputElement | null>(null);
+  const [preview, setPreview] = useState<string | undefined>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const onSelectFile = (e: HTMLInputEvent) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    setSelectedFile(e.target.files[0]);
+  };
+
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append(
+        "upload_preset",
+        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET_NAME,
+      );
+      const data = await Axios.post(
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_NAME}/image/upload`,
+        formData,
+      );
+      if (data.status != 200) {
+        return null;
+      }
+      return data.data["secure_url"];
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  };
+
+  const handleError = (error: unknown) => {
+    console.log(error);
+    setShowLoader(false);
+    setShowLoader(false);
+    toast.error("An error occured while creating a new token", {
+      // @ts-expect-error it works
+      description: error,
+    });
+  };
+
+  const handleSuccess = async (hash: Address) => {
+    try {
+      // @ts-expect-error it works
+      await waitForTransactionReceipt(client, {
+        hash,
+      });
       setShowLoader(false);
       setShowModal(true);
-    }, 3000);
-    console.log(tokenDetail);
+    } catch (e) {
+      // @ts-expect-error it works lad
+      handleError(e.message);
+    } finally {
+      setTokenDetails(defaultTokenDetails);
+    }
+  };
+
+  const handleCreateToken = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedFile) return handleError("Please upload an image...");
+    if (!client) return;
+    if (!tokenDetail) return;
+    setShowLoader(true);
+    try {
+      const curveConfig = getCurveConfig(client.chain.id);
+      const creationFee = await readContract(client, {
+        ...curveConfig,
+        functionName: 'creationFee'
+      });
+      const imageUrl = await handleImageUpload(selectedFile);
+      if (!imageUrl) {
+        handleError("unable to upload image");
+        return
+      }
+      await writeContractAsync(
+        {
+          ...curveConfig,
+          functionName: "launchToken",
+          value: creationFee,
+          args: [
+            {
+              "name": tokenDetail.tokenName,
+              "description": tokenDetail.tokenDescription,
+              "twitterLink": tokenDetail.twitterLink,
+              "telegramLink": tokenDetail.telegramLink,
+              "symbol": tokenDetail.tokenTicker,
+              "website": tokenDetail.websiteLink,
+              "image": imageUrl,
+            },
+            parseEther(tokenDetail.target)
+          ],
+        },
+        {
+          onSuccess: async (hash: Address) => {
+            await handleSuccess(hash);
+          },
+          onError: (error) => {
+            console.log(error.message);
+            handleError("Error occurred while sending transaction...");
+          },
+        },
+      )
+    } catch (error) {
+      handleError("Please try again...")
+    }
   };
 
   const handleChange = (
@@ -41,6 +155,16 @@ const LaunchToken = () => {
       [detail]: e.target.value,
     }));
   };
+
+  useEffect(() => {
+    // create the preview
+    if (!selectedFile) return;
+    const objectUrl = URL.createObjectURL(selectedFile as Blob);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
 
   const ModalText = {
     mainText: ` ${tokenDetail.tokenName} Token Successfully Created`,
@@ -70,13 +194,26 @@ const LaunchToken = () => {
           className="border formShdw bg-[#191A1A] border-[#00ECFF] rounded-3xl max-w-[550px]   w-full  px-[70px] py-[50px] flex flex-col gap-5  "
         >
           <h1>Create New Token</h1>
-          <div className="w-full flex flex-col items-center border border-[#F8F8F8] border-dashed gap-4  py-5 px-2 rounded-3xl ">
-            <img src="./images/uploadImg1.png" alt="" />
-            <button className=" uploadShdw rounded-full border border-[#00ECFF] py-2 text-xl px-7 font-semibold flex items-center gap-2  ">
-              Upload <img src="./images/uploadImg2.png" alt="" />
-            </button>
-            <p className="text-sm font-medium">or drag and drop image</p>
-            <p className="text-[10px] mt-[-14px] ">paste image or ctrl + v</p>
+          <div className="w-full flex flex-col items-center border border-[#F8F8F8] border-dashed gap-4  py-5 px-2 rounded-3xl " 
+           onClick={() => {
+            if (imageRef.current) {
+              imageRef.current.click();
+            }
+          }}>
+            <img src={preview || "./images/uploadImg1.png"} alt="preview" style={{height: 70}} />
+            <input
+              type="file"
+              ref={imageRef}
+              accept="image/*"
+              multiple={false}
+              required
+              name=""
+              // @ts-expect-error it works lad
+              onChange={onSelectFile}
+              className="image-file-input"
+              style={{display: "none"}}
+            />
+            <p className="text-sm font-medium">Click to upload image</p>
           </div>
           <input
             className=" border border-[#F8F8F8] rounded-xl text-lg font-medium bg-transparent px-4 w-full py-3 outline-none "
@@ -105,6 +242,17 @@ const LaunchToken = () => {
             type="text"
             required
             onChange={(e) => handleChange(e, "tokenDescription")}
+            name=""
+            id=""
+          />
+          <input
+            className=" border border-[#F8F8F8] rounded-xl text-lg font-medium bg-transparent px-4 w-full py-3 outline-none "
+            placeholder="Target (in core)"
+            value={tokenDetail.target}
+            type="number"
+            min={10000}
+            required
+            onChange={(e) => handleChange(e, "target")}
             name=""
             id=""
           />
@@ -172,7 +320,7 @@ const LaunchToken = () => {
           </button>
         </form>
       </div>
-      {showModal && <Modal text={ModalText} setShowModal={setShowModal} />}
+      {showModal && <Modal data={ModalText} setShowModal={setShowModal} />}
       {showLoader && <Loader text="Creating Token..." />}
     </div>
   );

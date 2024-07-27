@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useState } from "react";
 import { useAccount } from "wagmi";
-// import { Link as ScrollLink, Element } from "react-scroll";
 // import { Link as ScrollLink } from "react-scroll";
+import { truncate } from "../utils/helper";
 
 const Navbar = () => {
   const { open } = useWeb3Modal();
-  // const { disconnect } = useDisconnect();
   const { address } = useAccount();
   const [activeLink, setActiveLink] = useState<string>("/");
 
@@ -52,7 +51,7 @@ const Navbar = () => {
             onClick={() => open()}
             className="px-5 py-1 border-r border-[#ffffff"
           >
-            {address ? "Connected" : "Connect Wallet"}
+            {address ? truncate(address) : "Connect Wallet"}
           </button>
           <div className="flex justify-center items-center">
             <input
