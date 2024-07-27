@@ -1,3 +1,5 @@
+import { mainnetCurveConfig, testnetCurveConfig } from "../constants/data";
+
 /**
  * Truncates string (in the middle) via given lenght value
  */
@@ -55,4 +57,9 @@ export function truncate(value?: string, length = 13) {
     });
   
     return formattedTime;
+  }
+
+  export function getCurveConfig(chain?: number) {
+    if (!chain || chain == 1115) return testnetCurveConfig;
+    return mainnetCurveConfig
   }

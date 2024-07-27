@@ -1,8 +1,8 @@
-import { Config } from "wagmi";
-import { multicall } from "@wagmi/core";
+import { Config, useClient } from "wagmi";
 import { Address, formatEther } from "viem";
-import { curveConfig } from "../constants/data";
 import { useQuery } from "@tanstack/react-query";
+import { getCurveConfig } from "../utils/helper";
+import { readContract } from "viem/actions";
 
 interface TokenPool {
   token: Address;
@@ -19,36 +19,30 @@ const fetchPoolAndMigrationThreshold = async (
   addr: Address,
   config: Config,
 ): Promise<PoolAndThresholdData> => {
-  const [{ result: tokenPoolResult }, { result: threshHold }] = await multicall(
-    config,
+  const client = config.getClient();
+  const curveConfig = getCurveConfig(client.chain.id);
+  const tokenPoolResult = await readContract(
+    client,
     {
-      contracts: [
-        {
-          ...curveConfig,
-          functionName: "tokenPool",
-          args: [addr],
-        },
-        {
-          ...curveConfig,
-          functionName: "migrationThreshold",
-        },
-      ],
-    },
+        ...curveConfig,
+        functionName: "tokenPool",
+        args: [addr]
+    }
   );
 
-  if (!tokenPoolResult || !threshHold) {
+  if (!tokenPoolResult) {
     throw new Error("Failed to fetch pool data or migration threshold");
   }
-
+  const targetMcap = tokenPoolResult[6];
   const pool: TokenPool = {
     token: tokenPoolResult[0],
     lastPrice: tokenPoolResult[5],
-    migrated: tokenPoolResult[10],
+    migrated: tokenPoolResult[12],
   };
 
   const curveProgress =
     (Number(formatEther(tokenPoolResult[3])) /
-      Number(formatEther(threshHold))) *
+      Number(formatEther(targetMcap))) *
     100;
   const bondingPercentage = parseFloat(curveProgress.toString()).toFixed(2);
 
@@ -56,6 +50,8 @@ const fetchPoolAndMigrationThreshold = async (
 };
 
 export const usePoolAndMigrationThreshold = (addr: Address, config: Config) => {
+  const client = useClient();
+  client?.chain.id
   return useQuery<PoolAndThresholdData, Error>({
     queryKey: ["poolAndMigrationThreshold", addr],
     queryFn: () => fetchPoolAndMigrationThreshold(addr, config),

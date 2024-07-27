@@ -11,6 +11,7 @@ interface Token {
   name: string;
   symbol: string;
   marketCap: string;
+  targetMcap: string;
   description: string;
   logoUrl: string;
   timestamp: string;
@@ -24,7 +25,7 @@ interface TokensData {
 
 interface TokenDetail extends Token {
   isMigrated: boolean;
-  lpAddress: String | null;
+  lpAddress: string | null;
 }
 
 interface TokenWithPrices extends TokenDetail {

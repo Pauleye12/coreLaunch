@@ -1,6 +1,5 @@
 import { Address } from "viem";
 import { client } from "../utils/graphql";
-import { useState, useEffect } from "react";
 import { GET_TOPBAR_TRADES, GET_TRADES } from "../utils/query";
 import { useQuery } from "@tanstack/react-query";
 
