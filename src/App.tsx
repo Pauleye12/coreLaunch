@@ -1,5 +1,6 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
+import BaseToast from "./components/BaseToast";
 import Home from "./pages/Home";
 import LaunchToken from "./pages/LaunchToken";
 import TokenProfile from "./pages/TokenProfile";
@@ -70,19 +71,22 @@ createWeb3Modal({
 
 const App = () => {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
+    <>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
 
-            <Route path="/launch" element={<LaunchToken />} />
-            <Route path="/token/:id" element={<TokenProfile />} />
-          </Routes>
-        </Router>
-      </QueryClientProvider>
-    </WagmiProvider>
+              <Route path="/launch" element={<LaunchToken />} />
+              <Route path="/token/:id" element={<TokenProfile />} />
+            </Routes>
+          </Router>
+        </QueryClientProvider>
+      </WagmiProvider>
+    <BaseToast />
+    </>
   );
 };
 

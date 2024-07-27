@@ -1,11 +1,11 @@
 import React from "react";
 
 interface ModalProps {
-  text: { mainText: string; subText: string };
+  data: { mainText: string; subText: string; link?: string };
   setShowModal: (value: boolean) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ text, setShowModal }) => {
+const Modal: React.FC<ModalProps> = ({ data, setShowModal }) => {
   return (
     <div className="fixed top-0 left-0 w-full flex justify-center items-center pt-[90px] bg-[#00000033] h-full backdrop-blur-sm ">
       <div className="p-[1px] rounded-xl heroBTN ">
@@ -19,11 +19,12 @@ const Modal: React.FC<ModalProps> = ({ text, setShowModal }) => {
           <div className="h-max flex flex-col gap-14 items-center ">
             <div className="flex flex-col items-center gap-4 text-center ">
               <img className="w-[60px]" src="../images/modalTick.png" alt="" />
-              <h1 className=" text-xl font-semibold  ">{text.mainText}</h1>
+              <h1 className=" text-xl font-semibold  ">{data.mainText}</h1>
               <p className="max-w-[300px] text-sm font-semibold w-full ">
-                {text.subText}
+                {data.subText}
               </p>
               <button className="flex text-sm items-center gap-1 ">
+                <a href={data.link}></a>
                 View details <img src="../images/dropdown.png" alt="" />{" "}
               </button>
             </div>
