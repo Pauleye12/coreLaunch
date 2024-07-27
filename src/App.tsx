@@ -15,6 +15,8 @@ import { coreDao } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { type Chain } from "viem";
+import Notfound from "./components/NotFound";
+import MyTokens from "./pages/MyTokens";
 
 // import { config } from "../config";
 
@@ -84,6 +86,8 @@ const App = () => {
 
               <Route path="/launch" element={<LaunchToken />} />
               <Route path="/token/:id" element={<TokenProfile />} />
+              <Route path="/myTokens" element={<MyTokens />} />
+              <Route path="/notfound" element={<Notfound />} />
             </Routes>
           </Router>
         </QueryClientProvider>

@@ -5,6 +5,7 @@ import Loader from "../components/Loader";
 import Tablerow from "../components/Tablerow";
 import BuyModal from "../components/BuyModal";
 import SellModal from "../components/SellModal";
+import SlippageModal from "../components/SlippageModal";
 
 // const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const mockTableData = [
@@ -315,6 +316,8 @@ const TokenProfile = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [tradeAction, setTradeAction] = useState("buy");
   const [validAmount, setValidAmount] = useState(true);
+  const [showSlippage, setShowSlippage] = useState(false)
+  const [slippageValue, setSlippageValue] = useState<number>(2)
 
   //Amount Input
   const [passedSellAmount, setPassedSellAmount] = useState<number>(0);
@@ -493,7 +496,7 @@ const TokenProfile = () => {
                   />
                 )}
 
-                <p className="w-full flex gap-1 justify-end items-center ">
+                <p onClick={()=>setShowSlippage(true)} className="w-full flex gap-1 justify-end items-center cursor-pointer ">
                   <img src="../images/settings.png" alt="" /> Set max slippage
                 </p>
               </div>
@@ -575,8 +578,9 @@ const TokenProfile = () => {
         </div>
         <Footer />
       </div>
-      {showModal && <Modal text={ModalText} setShowModal={setShowModal} />}
+      {showModal && <Modal data={ModalText} setShowModal={setShowModal} />}
       {showLoader && <Loader text="Swapping Token..." />}
+      {showSlippage && <SlippageModal setShowSlippage={setShowSlippage} slippageValue={slippageValue} setSlippageValue={setSlippageValue}  /> }
     </div>
   );
 };
