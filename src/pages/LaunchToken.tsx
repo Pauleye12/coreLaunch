@@ -7,7 +7,6 @@ import { Address, parseEther } from "viem";
 import { useClient, useWriteContract } from "wagmi";
 import { readContract, waitForTransactionReceipt } from "viem/actions";
 import { getCurveConfig } from "../utils/helper";
-// import Loader from "../components/Loader";
 
 interface tokenDetails {
   tokenName: string;

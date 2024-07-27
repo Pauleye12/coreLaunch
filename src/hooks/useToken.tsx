@@ -1,50 +1,7 @@
-import { Address } from "viem";
 import { client } from "../utils/graphql";
 import { useQuery } from "@tanstack/react-query";
 import { GET_TOKENS, GET_TOKEN } from "../utils/query";
-
-interface Token {
-  id: string;
-  address: Address;
-  chainId: number;
-  creator: Address;
-  name: string;
-  symbol: string;
-  marketCap: string;
-  targetMcap: string;
-  description: string;
-  logoUrl: string;
-  timestamp: string;
-}
-
-interface TokensData {
-  tokens: {
-    items: Token[];
-  };
-}
-
-interface TokenDetail extends Token {
-  isMigrated: boolean;
-  lpAddress: string | null;
-}
-
-interface TokenWithPrices extends TokenDetail {
-  prices: {
-    items: {
-      id: number;
-      open: string;
-      high: string;
-      low: string;
-      close: string;
-      average: string;
-      count: string;
-    }[];
-  };
-}
-
-interface TokenData {
-  token: TokenWithPrices;
-}
+import { TokenData, Token, TokenWithPrices, TokensData} from "../constants/types"
 
 export const useTokens = (chainId: number, orderBy: string, limit: number) => {
   const fetchTokens = async (

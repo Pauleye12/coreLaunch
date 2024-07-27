@@ -1,20 +1,29 @@
 import { Link } from "react-router-dom";
+import { Token } from "../constants/types";
+import { truncate } from "../utils/helper";
+import { formatEther } from "viem";
 
-const Tokencard = () => {
+const Tokencard = ({ token }: { token: Token}) => {
   return (
     <Link
-      to={"/token/1"}
+      to={`/token/${token.id}`}
       className="max-w-[390px] w-full h-[200px] rounded-lg "
     >
-      <div className="h-full rounded-t-lg tokenBG  ">
+      <div className="h-full rounded-t-lg" style={{
+        backgroundImage: `linear-gradient(to bottom, #191a1a90, #191a1a35),
+          url("${token.logoUrl.slice(0, 5) == "https" ? token.logoUrl : '../images/chart.png'}")`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}>
         <div className="flex items-center w-full justify-start px-3 py-5 gap-5">
           <img src="./images/tokenImg.png" alt="" />
           <div className="flex flex-col gap-2">
             <p className="text-sm font-semibold ">
-              Memeland <span>[$mlm]</span>
+              {token.name} <span>[${token.symbol}]</span>
             </p>
             <p className=" text-[10px] flex items-center gap-1 font-semibold ">
-              0xe214ED30ea065c...{" "}
+              {truncate(token.address)} {" "}
               <span>
                 <img src="./images/copy.png" alt="" />
               </span>
@@ -24,15 +33,19 @@ const Tokencard = () => {
       </div>
       <div className="flex w-full justify-between items-center px-3 py-2 bg-[#2C2C2C] font-semibold text-[7px] rounded-b-lg ">
         <p>
-          Market cap: <span className="text-[#00ECFF] ml-1 ">140.60 CORE</span>
+          Market cap: <span className="text-[#00ECFF] ml-1 ">{parseFloat(
+                                formatEther(BigInt(token.marketCap)),
+                              ).toFixed(5)} CORE</span>
         </p>
         <p>
-          Trading vol: <span className="text-[#00ECFF] ml-1 ">140.M CORE</span>
+          Target: <span className="text-[#00ECFF] ml-1 ">{parseFloat(
+                                formatEther(BigInt(token.targetMcap || 0)),
+                              ).toFixed(5)} CORE</span>
         </p>
         <p>
-          Created on: <span className="text-[#00ECFF] ml-1 ">07/10</span>
+          Created on: <span className="text-[#00ECFF] ml-1 ">{token.timestamp}</span>
         </p>
-        <img src="./images/share.png" alt="" />
+        <img src={"./images/share.png"} alt="" />
       </div>
     </Link>
   );

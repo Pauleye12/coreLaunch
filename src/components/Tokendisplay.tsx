@@ -1,8 +1,8 @@
+import { Token } from "../constants/types";
 import Tokencard from "./Tokencard";
 import { Element } from "react-scroll";
 
-const Tokendisplay = () => {
-  const nums = [1, 2, 3, 4, 5, 6];
+const Tokendisplay = ({ tokens }:{tokens: Token[]}) => {
   return (
     <Element name="tokens">
       <div
@@ -39,8 +39,8 @@ const Tokendisplay = () => {
         <div className="w-full flex justify-center items-center">
           <div className="flex flex-wrap  justify-between gap-y-14 gap-x-5">
             {" "}
-            {nums.map((index) => (
-              <Tokencard key={index} />
+            {tokens.map((token) => (
+              <Tokencard token={token} key={token.id} />
             ))}{" "}
           </div>
         </div>
