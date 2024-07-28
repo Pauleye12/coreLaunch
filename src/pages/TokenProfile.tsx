@@ -22,7 +22,7 @@ const DefaultModalText = {
   mainText: "Token Swap Successful",
   subText: "Congratulations! Your token has been successfully swapped.",
   subText2: "View transaction",
-  link: "https://google.com"
+  link: ""
 };
 
 const TokenProfile = () => {
@@ -39,6 +39,7 @@ const TokenProfile = () => {
   const [tokenAmountOut, setTokenAmountOut] = useState("0");
   const [slippage, setSlippage] = useState("2");
   const [modalText, setModalText] = useState(DefaultModalText);
+  const [copied, setCopied] = useState(false);
 
   const client = useClient();
   const { writeContractAsync } = useWriteContract();
@@ -110,8 +111,6 @@ const TokenProfile = () => {
       setCurrentPage(currentPage + 1);
     }
   };
-
-  // const [copied, setCopied] = useState(true);
 
   const handleError = (error: unknown) => {
     console.log(error);
@@ -249,21 +248,19 @@ const TokenProfile = () => {
   };
 
   const handleCopyTokenAddress = async () => {
-    // setCopied(false);
-    // if (token?.address) {
-    //   try {
-    //     await navigator.clipboard.writeText(token.address);
-    //     setCopied(true);
-    //     setTimeout(() => {
-    //       setCopied(false);
-    //     }, 3000);
-    //   } catch (err) {
-    //     console.error("Failed to copy content: ", err);
-    //     setCopied(false);
-    //   }
-    // } else {
-    //   alert("No token address found");
-    // }
+    setCopied(false);
+    if (token?.address) {
+      try {
+        await navigator.clipboard.writeText(token.address);
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+        }, 3000);
+      } catch (err) {
+        console.error("Failed to copy content: ", err);
+        setCopied(false);
+      }
+    }
   };
 
   useEffect(() => {
@@ -326,11 +323,11 @@ const TokenProfile = () => {
                 className="text-white relative bg-[#182323] px-3 py-[6px] flex items-center w-max gap-1 rounded-md"
               >
                 <img src="../images/copy2.png" alt="" /> {truncate(token?.address)}
-                {/* {copied && (
+                {copied && (
                   <p className="text-white absolute bottom-[-30px] left-0 bg-[#182323] px-3 py-[6px]  text-[10px] w-full text-center gap-1 rounded-md">
                     Address Copied
                   </p>
-                )} */}
+                )}
               </button>
             </div>
           </div>

@@ -16,6 +16,32 @@ export const GET_TOKENS = gql`
         name
         symbol
         marketCap
+        targetMcap
+        description
+        logoUrl
+        timestamp
+      }
+    }
+  }
+`;
+
+export const GET_MY_TOKENS = gql`
+  query MyQuery($orderBy: String, $chainId: Int, $creator: String) {
+    tokens(
+      limit: 5
+      orderBy: $orderBy
+      orderDirection: "desc"
+      where: { chainId: $chainId, creator: $creator }
+    ) {
+      items {
+        id
+        address
+        chainId
+        creator
+        name
+        symbol
+        marketCap
+        targetMcap
         description
         logoUrl
         timestamp
@@ -46,6 +72,7 @@ export const GET_TOKEN = gql`
       timestamp
       logoUrl
       lpAddress
+      targetMcap
       marketCap
       name
       symbol

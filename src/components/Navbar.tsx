@@ -7,8 +7,8 @@ import { truncate } from "../utils/helper";
 
 const Navbar = () => {
   const { open } = useWeb3Modal();
-  const { address } = useAccount();
   const [activeLink, setActiveLink] = useState<string>("/");
+  const { address } = useAccount();
 
   // Handle click event
   const handleLinkClick = (link: string) => {
@@ -25,11 +25,12 @@ const Navbar = () => {
             {" "}
             <a
               onClick={() => handleLinkClick("/")}
-              href="/#home"
+              href="/"
               className="hover:text-[#00ECFF]"
             >
               Home
             </a>{" "}
+            { address &&
             <a
               onClick={() => handleLinkClick("tokens")}
               className={
@@ -37,13 +38,13 @@ const Navbar = () => {
                   ? "text-[#00ECFF] cursor-pointer "
                   : "cursor-pointer"
               }
-              href="/#tokens"
+              href="/mytokens"
               // to="tokens"
               // smooth={true}
               // duration={500}
             >
-              Tokens
-            </a>{" "}
+              MyTokens
+            </a>}{" "}
           </div>
         </div>
         <div className="flex gap-3">
