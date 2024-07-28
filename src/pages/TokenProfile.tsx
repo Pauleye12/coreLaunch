@@ -300,7 +300,7 @@ const TokenProfile = () => {
         <div className="flex flex-col md:flex-row gap-7 justify-between">
           <div className="bg-[#1C4141] text-white flex flex-col gap-5 p-5 md:max-w-[50%] w-full rounded-2xl">
             <div className="flex gap-3 items-center ">
-              <img src="../images/memeland.png" alt="" />
+              <img src={token.logoUrl.slice(0, 5) == "https" ? token.logoUrl : "../images/memeland.png"} alt="" width="120" style={{borderRadius: "30px"}} />
               <div className="flex flex-col items-start gap-1 ">
                 <h1 className="uppercase text-2xl font-semibold ">{token?.name}</h1>
                 <p className="uppercase text-xl font-semibold ">${token?.symbol}</p>
