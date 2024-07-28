@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({ data, setShowModal }) => {
             </div>
             <div className="flex items-center gap-2">
               <img className="w-[50px]" src="../images/Core 2.png" alt="" />{" "}
-              <h1 className="uppercase font-bold text-2xl ">CORELAUNCH</h1>
+              <h1 className="uppercase font-bold text-2xl ">MOONLAUNCH</h1>
             </div>
           </div>
         </div>

@@ -10,7 +10,7 @@ const Footer = () => {
           <p> Terms and conditions</p>
           <p>Privacy Policy</p>
           <p>Whitepaper</p>
-          <p>Visit corelaunch</p>
+          <p>Visit moonlaunch</p>
         </div>
 
         <div className="flex gap-2 items-center">
