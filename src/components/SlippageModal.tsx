@@ -2,8 +2,8 @@ import React from "react";
 
 interface slippageProps {
   setShowSlippage: (value: boolean) => void;
-  slippageValue: number;
-  setSlippageValue: (value: number) => void;
+  slippageValue: string;
+  setSlippageValue: (value: string) => void;
 }
 const SlippageModal: React.FC<slippageProps> = ({
   setShowSlippage,
@@ -18,13 +18,13 @@ const SlippageModal: React.FC<slippageProps> = ({
           <p className="text-sm">Set max slippage</p>
         </div>
         <div className="flex flex-col gap-3 items-start">
-          <p className="text-sm">max slippage</p>
+          <p className="text-sm">max slippage (%)</p>
           <input
             className="bg-[#00ECFF05] outline-none border-none rounded-xl px-4 py-3  w-full "
             type="number"
             value={slippageValue}
             name="slippage"
-            onChange={(e) => setSlippageValue(parseFloat(e.target.value))}
+            onChange={(e) => setSlippageValue(e.target.value)}
             id="slippage"
           />
         </div>

@@ -16,6 +16,7 @@ import { useTrades } from "../hooks/useTrades";
 import { formatDate, getCurveConfig, truncate } from "../utils/helper";
 import { tokenConfig } from "../constants/data";
 import { getBalance, readContract, waitForTransactionReceipt } from "viem/actions";
+import Notfound from "../components/NotFound";
 
 const DefaultModalText = {
   mainText: "Token Swap Successful",
@@ -29,9 +30,7 @@ const TokenProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [tradeAction, setTradeAction] = useState("buy");
-  const [validAmount, setValidAmount] = useState(true);
   const [showSlippage, setShowSlippage] = useState(false)
-  const [slippageValue, setSlippageValue] = useState<number>(2)
   const [ethBalance, setEthBalance] = useState("0");
   const [tokenBalance, setTokenBalance] = useState("0");
   const [ethAmountIn, setEthAmountIn] = useState("0");
@@ -44,31 +43,13 @@ const TokenProfile = () => {
   const client = useClient();
   const { writeContractAsync } = useWriteContract();
   const config = useConfig();
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
   const { refetch: refetchBlock } = useBlock();
 
   const { isLoading: isTokenLoading, data: token, refetch: refetchToken, error: tokenError } = useToken(tokenId || "");
-  const { data: pool, isLoading: isPoolLoading, error: poolError, refetch: refetchPoolInfo } = usePoolAndMigrationThreshold(token?.address as Address, config);
+  const { data: pool, isLoading: isPoolLoading, refetch: refetchPoolInfo } = usePoolAndMigrationThreshold(token?.address as Address, config);
   const { data: trades, isLoading: isTradesLoading, refetch: refreshTrades } = useTrades(tokenId || "", "timestamp", 10);
   const curveConfig = getCurveConfig(client?.chain.id);
-
-  const fetchBalances = async () => {
-    if (address && token) {
-      // @ts-expect-error it works
-      const ethBalance = await getBalance(client, {
-        address: address,
-      });
-      // @ts-expect-error it works
-      const tokenBalance = await readContract(client, {
-        ...tokenConfig,
-        address: token.address,
-        functionName: "balanceOf",
-        args: [address],
-      });
-      setEthBalance(formatEther(ethBalance));
-      setTokenBalance(formatEther(tokenBalance));
-    }
-  };
 
   const handleChangeTokenAmountIn = async (amountIn: string) => {
     if (!token || amountIn == "0") {
@@ -286,6 +267,23 @@ const TokenProfile = () => {
   };
 
   useEffect(() => {
+    const fetchBalances = async () => {
+      if (address && token) {
+        // @ts-expect-error it works
+        const ethBalance = await getBalance(client, {
+          address: address,
+        });
+        // @ts-expect-error it works
+        const tokenBalance = await readContract(client, {
+          ...tokenConfig,
+          address: token.address,
+          functionName: "balanceOf",
+          args: [address],
+        });
+        setEthBalance(formatEther(ethBalance));
+        setTokenBalance(formatEther(tokenBalance));
+      }
+    };
     if (address) {
       fetchBalances();
       //setDisableBtn(false);
@@ -293,12 +291,14 @@ const TokenProfile = () => {
       setEthBalance("0");
       setTokenBalance("0");
     }
-  }, [isConnected, token]);
+  }, [address, client, token]);
 
   return (
     <div className="bg-[#191A1A] px-5 pt-[80px] flex justify-center">
       { isPoolLoading || isTokenLoading || isTradesLoading ? <Loader text="Fetching token and trades ..." /> :
       <div className="max-w-[1200px] pt-10 w-full flex flex-col gap-10 ">
+        {(tokenError || !token) && <Notfound></Notfound>}
+        {token &&
         <div className="flex flex-col md:flex-row gap-7 justify-between">
           <div className="bg-[#1C4141] text-white flex flex-col gap-5 p-5 md:max-w-[50%] w-full rounded-2xl">
             <div className="flex gap-3 items-center ">
@@ -405,10 +405,13 @@ const TokenProfile = () => {
             </div>
           </div>
         </div>
-
+        }
+        {token &&
         <div className="border border-white p-3 greenShdw w-full rounded-xl ">
           <h1>Price Chart</h1>
         </div>
+        }
+        { (token && trades) &&
         <div className="border border-white p-6 flex flex-col gap-5 greenShdw w-full rounded-xl ">
           <div className="flex md:flex-row flex-col gap-5 w-full justify-between  ">
             <div className="flex gap-5 items-center w-full ">
@@ -456,12 +459,13 @@ const TokenProfile = () => {
             </table>
           </div>
         </div>
+        }
         <Footer />
       </div>
       }
       {showModal && <Modal data={modalText} setShowModal={setShowModal} />}
       {showLoader && <Loader text="Swapping Token..." />}
-      {showSlippage && <SlippageModal setShowSlippage={setShowSlippage} slippageValue={slippageValue} setSlippageValue={setSlippageValue}  /> }
+      {showSlippage && <SlippageModal setShowSlippage={setShowSlippage} slippageValue={slippage} setSlippageValue={setSlippage}  /> }
     </div>
   );
 };
