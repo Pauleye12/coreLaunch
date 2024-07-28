@@ -169,6 +169,9 @@ const LaunchToken = () => {
   const ModalText = {
     mainText: ` ${tokenDetail.tokenName} Token Successfully Created`,
     subText: `Congratulations! Your token ${tokenDetail.tokenTicker} has been successfully created.`,
+    subText2: 'View your tokens',
+    link: '/mytokens',
+    myTokens: true
   };
   return (
     <div className=" md:h-screen pt-[120px] flex flex-col md:flex-row gap-5 launchBG relative">

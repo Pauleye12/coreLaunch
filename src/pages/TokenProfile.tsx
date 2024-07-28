@@ -22,7 +22,8 @@ const DefaultModalText = {
   mainText: "Token Swap Successful",
   subText: "Congratulations! Your token has been successfully swapped.",
   subText2: "View transaction",
-  link: ""
+  link: "",
+  myTokens: false
 };
 
 const TokenProfile = () => {

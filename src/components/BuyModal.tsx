@@ -35,7 +35,7 @@ const BuyModal = ({
           <p className="uppercase">CORE</p>{" "}
         </div>
       </div>
-      <div className="w-full flex justify-between gap-3 items-center">
+      {/* <div className="w-full flex justify-between gap-3 items-center">
         <button className="border border-[#ffffff] rounded-md px-4 w-full py-1 ">
           25%
         </button>
@@ -48,7 +48,7 @@ const BuyModal = ({
         <button className="border border-[#ffffff] rounded-md px-4 w-full py-1 ">
           100%
         </button>
-      </div>
+      </div> */}
       <div className="flex justify-between gap-3 items-center w-full mt-2 ">
         <p>You will receive </p>
         <p className="uppercase">{parseFloat(tokenAmountOut).toFixed(4)} {tokenSymbol}</p>

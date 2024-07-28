@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface ModalProps {
-  data: { mainText: string; subText: string; subText2: string; link?: string };
+  data: { mainText: string; subText: string; subText2: string; link?: string, myTokens: boolean };
   setShowModal: (value: boolean) => void;
 }
 
@@ -24,8 +25,8 @@ const Modal: React.FC<ModalProps> = ({ data, setShowModal }) => {
                 {data.subText}
               </p>
               <button className="flex text-sm items-center gap-1 ">
-                <a href={data.link} target="_blank">{data.subText2}</a>
-                {/* <img src="../images/dropdown.png" alt="" />{" "} */}
+                { data.myTokens && <Link to={data.link!}>{data.subText2}</Link>}
+                { !data.myTokens && <a href={data.link} target="_blank">{data.subText2}</a>}
               </button>
             </div>
             <div className="flex items-center gap-2">
