@@ -40,7 +40,7 @@ const coreDaoTestnet = {
   blockExplorers: {
     default: {
       name: "Core Testnet Scan",
-      url: "https://scan.test.btcs.network/",
+      url: "https://scan.test.btcs.network",
     },
   },
   contracts: {

@@ -134,7 +134,7 @@ const TokenProfile = () => {
       setShowLoader(false);
       setModalText({
         ...DefaultModalText,
-        link: `${client?.chain.blockExplorers?.default.url}tx/${hash}`
+        link: `${client?.chain.blockExplorers?.default.url}/tx/${hash}`
       });
       setShowModal(true);
       setEthAmountIn("0");
