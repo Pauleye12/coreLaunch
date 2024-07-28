@@ -1,7 +1,12 @@
 import { client } from "../utils/graphql";
 import { useQuery } from "@tanstack/react-query";
 import { GET_TOKENS, GET_TOKEN } from "../utils/query";
-import { TokenData, Token, TokenWithPrices, TokensData} from "../constants/types"
+import {
+  TokenData,
+  Token,
+  TokenWithPrices,
+  TokensData,
+} from "../constants/types";
 
 export const useTokens = (chainId: number, orderBy: string, limit: number) => {
   const fetchTokens = async (

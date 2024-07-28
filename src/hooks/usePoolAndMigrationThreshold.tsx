@@ -21,14 +21,11 @@ const fetchPoolAndMigrationThreshold = async (
 ): Promise<PoolAndThresholdData> => {
   const client = config.getClient();
   const curveConfig = getCurveConfig(client.chain.id);
-  const tokenPoolResult = await readContract(
-    client,
-    {
-        ...curveConfig,
-        functionName: "tokenPool",
-        args: [addr]
-    }
-  );
+  const tokenPoolResult = await readContract(client, {
+    ...curveConfig,
+    functionName: "tokenPool",
+    args: [addr],
+  });
 
   if (!tokenPoolResult) {
     throw new Error("Failed to fetch pool data or migration threshold");
@@ -51,7 +48,7 @@ const fetchPoolAndMigrationThreshold = async (
 
 export const usePoolAndMigrationThreshold = (addr: Address, config: Config) => {
   const client = useClient();
-  client?.chain.id
+  client?.chain.id;
   return useQuery<PoolAndThresholdData, Error>({
     queryKey: ["poolAndMigrationThreshold", addr],
     queryFn: () => fetchPoolAndMigrationThreshold(addr, config),

@@ -1,16 +1,14 @@
-interface buyProps {
-  walletBalance: string;
-  tokenName: string;
-}
-
 const BuyModal = ({
-  BuyDetails,
-  passedAmount,
-  setPassedAmount,
+  coreBalance,
+  tokenSymbol,
+  tokenAmountOut,
+  handleChangeEthAmountIn,
 }: {
-  BuyDetails: buyProps;
-  setPassedAmount: (val: number) => void;
-  passedAmount: number;
+  coreBalance: string;
+  tokenSymbol: string;
+  ethAmountIn: string;
+  tokenAmountOut: string;
+  handleChangeEthAmountIn: (val: string) => Promise<void>;
 }) => {
   return (
     <div className="bg-[#00ECFF05] tokenInfoShdw rounded-xl px-6 py-5 flex flex-col gap-1 w-full ">
@@ -21,15 +19,14 @@ const BuyModal = ({
         </div>
         <div className="flex gap-2 items-center ">
           <img src="../images/wallet.png" alt="" />
-          <p>{BuyDetails.walletBalance}</p>
+          <p>{parseFloat(coreBalance).toFixed(4)}</p>
         </div>
       </div>
       <div className="flex font-medium justify-between gap-5 items-center w-full ">
         <input
           className="bg-transparent no-arrows w-[60%] text-[28px] md:text-[36px] outline-none"
           type="number"
-          value={passedAmount}
-          onChange={(e) => setPassedAmount(parseFloat(e.target.value))}
+          onChange={(e) => handleChangeEthAmountIn(e.target.value)}
           placeholder="0.00"
           name=""
           id=""
@@ -54,7 +51,7 @@ const BuyModal = ({
       </div>
       <div className="flex justify-between gap-3 items-center w-full mt-2 ">
         <p>You will receive </p>
-        <p className="uppercase">0.00 {BuyDetails.tokenName}</p>
+        <p className="uppercase">{parseFloat(tokenAmountOut).toFixed(4)} {tokenSymbol}</p>
       </div>
     </div>
   );

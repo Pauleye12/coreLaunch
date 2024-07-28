@@ -42,7 +42,8 @@ export const GET_TOKEN = gql`
           average
         }
       }
-      isMigrated
+      migratedAt
+      timestamp
       logoUrl
       lpAddress
       marketCap

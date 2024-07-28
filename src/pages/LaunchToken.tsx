@@ -28,12 +28,13 @@ const defaultTokenDetails = {
   twitterLink: "",
   telegramLink: "",
   websiteLink: "",
-}
+};
 
 const LaunchToken = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
-  const [tokenDetail, setTokenDetails] = useState<tokenDetails>(defaultTokenDetails);
+  const [tokenDetail, setTokenDetails] =
+    useState<tokenDetails>(defaultTokenDetails);
 
   const { writeContractAsync } = useWriteContract();
   const client = useClient();
@@ -46,7 +47,6 @@ const LaunchToken = () => {
     if (!e.target.files || e.target.files.length === 0) return;
     setSelectedFile(e.target.files[0]);
   };
-
 
   const handleImageUpload = async (file: File) => {
     try {
@@ -106,12 +106,12 @@ const LaunchToken = () => {
       const curveConfig = getCurveConfig(client.chain.id);
       const creationFee = await readContract(client, {
         ...curveConfig,
-        functionName: 'creationFee'
+        functionName: "creationFee",
       });
       const imageUrl = await handleImageUpload(selectedFile);
       if (!imageUrl) {
         handleError("unable to upload image");
-        return
+        return;
       }
       await writeContractAsync(
         {
@@ -120,15 +120,15 @@ const LaunchToken = () => {
           value: creationFee,
           args: [
             {
-              "name": tokenDetail.tokenName,
-              "description": tokenDetail.tokenDescription,
-              "twitterLink": tokenDetail.twitterLink,
-              "telegramLink": tokenDetail.telegramLink,
-              "symbol": tokenDetail.tokenTicker,
-              "website": tokenDetail.websiteLink,
-              "image": imageUrl,
+              name: tokenDetail.tokenName,
+              description: tokenDetail.tokenDescription,
+              twitterLink: tokenDetail.twitterLink,
+              telegramLink: tokenDetail.telegramLink,
+              symbol: tokenDetail.tokenTicker,
+              website: tokenDetail.websiteLink,
+              image: imageUrl,
             },
-            parseEther(tokenDetail.target)
+            parseEther(tokenDetail.target),
           ],
         },
         {
@@ -140,15 +140,15 @@ const LaunchToken = () => {
             handleError("Error occurred while sending transaction...");
           },
         },
-      )
+      );
     } catch (error) {
-      handleError("Please try again...")
+      handleError("Please try again...");
     }
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    detail: string
+    detail: string,
   ) => {
     setTokenDetails((prev) => ({
       ...prev,
@@ -194,13 +194,19 @@ const LaunchToken = () => {
           className="border formShdw bg-[#191A1A] border-[#00ECFF] rounded-3xl max-w-[550px]   w-full  px-[70px] py-[50px] flex flex-col gap-5  "
         >
           <h1>Create New Token</h1>
-          <div className="w-full flex flex-col items-center border border-[#F8F8F8] border-dashed gap-4  py-5 px-2 rounded-3xl " 
-           onClick={() => {
-            if (imageRef.current) {
-              imageRef.current.click();
-            }
-          }}>
-            <img src={preview || "./images/uploadImg1.png"} alt="preview" style={{height: 70}} />
+          <div
+            className="w-full flex flex-col items-center border border-[#F8F8F8] border-dashed gap-4  py-5 px-2 rounded-3xl "
+            onClick={() => {
+              if (imageRef.current) {
+                imageRef.current.click();
+              }
+            }}
+          >
+            <img
+              src={preview || "./images/uploadImg1.png"}
+              alt="preview"
+              style={{ height: 70 }}
+            />
             <input
               type="file"
               ref={imageRef}
@@ -211,7 +217,7 @@ const LaunchToken = () => {
               // @ts-expect-error it works lad
               onChange={onSelectFile}
               className="image-file-input"
-              style={{display: "none"}}
+              style={{ display: "none" }}
             />
             <p className="text-sm font-medium">Click to upload image</p>
           </div>

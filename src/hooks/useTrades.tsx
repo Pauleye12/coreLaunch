@@ -1,44 +1,7 @@
-import { Address } from "viem";
 import { client } from "../utils/graphql";
 import { GET_TOPBAR_TRADES, GET_TRADES } from "../utils/query";
 import { useQuery } from "@tanstack/react-query";
-
-export interface Trade {
-  id: string;
-  actor: Address;
-  action: string;
-  tokenId: Address;
-  timestamp: string;
-  fee: string;
-  amountOut: string;
-  amountIn: string;
-}
-
-export interface TopBarTrade {
-  id: string;
-  actor: Address;
-  action: string;
-  token: {
-    address: Address;
-    symbol: string;
-  };
-  timestamp: string;
-  fee: string;
-  amountOut: string;
-  amountIn: string;
-}
-
-interface TradesData {
-  trades: {
-    items: Trade[];
-  };
-}
-
-interface TopBarTradesData {
-  trades: {
-    items: TopBarTrade[];
-  };
-}
+import { TradesData, TopBarTradesData, Trade, TopBarTrade } from "../constants/types";
 
 export const useTrades = (tokenId: string, orderBy: string, limit: number) => {
   const fetchTrades = async (

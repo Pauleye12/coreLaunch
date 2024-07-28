@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ModalProps {
-  data: { mainText: string; subText: string; link?: string };
+  data: { mainText: string; subText: string; subText2: string; link?: string };
   setShowModal: (value: boolean) => void;
 }
 
@@ -24,8 +24,8 @@ const Modal: React.FC<ModalProps> = ({ data, setShowModal }) => {
                 {data.subText}
               </p>
               <button className="flex text-sm items-center gap-1 ">
-                <a href={data.link}></a>
-                View details <img src="../images/dropdown.png" alt="" />{" "}
+                <a href={data.link} target="_blank">{data.subText2}</a>
+                {/* <img src="../images/dropdown.png" alt="" />{" "} */}
               </button>
             </div>
             <div className="flex items-center gap-2">
