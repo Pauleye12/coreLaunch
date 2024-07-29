@@ -7,6 +7,7 @@ import { Address, parseEther } from "viem";
 import { useClient, useWriteContract } from "wagmi";
 import { readContract, waitForTransactionReceipt } from "viem/actions";
 import { getCurveConfig } from "../utils/helper";
+import { motion } from "framer-motion";
 
 interface tokenDetails {
   tokenName: string;
@@ -30,6 +31,55 @@ const defaultTokenDetails = {
   websiteLink: "",
 };
 
+const BtnHover = {
+  animate: {
+    scale: 1,
+    transition: {
+      duration: 0.75,
+
+      type: "spring",
+      ease: "easeInOut",
+    },
+  },
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.75,
+
+      type: "spring",
+      ease: "easeInOut",
+    },
+  },
+  onTap: {
+    scale: 1,
+    transition: {
+      duration: 0.25,
+      ease: "easeInOut",
+    },
+  },
+};
+const Pageanime = {
+  initial: {
+    x: 800,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.75,
+      ease: "easeInOut",
+    },
+  },
+  exit: {
+    x: 300,
+    opacity: 0,
+    transition: {
+      duration: 0.75,
+      ease: "easeInOut",
+    },
+  },
+};
 const LaunchToken = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -54,11 +104,11 @@ const LaunchToken = () => {
       formData.append("file", file);
       formData.append(
         "upload_preset",
-        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET_NAME,
+        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET_NAME
       );
       const data = await Axios.post(
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_NAME}/image/upload`,
-        formData,
+        formData
       );
       if (data.status != 200) {
         return null;
@@ -139,7 +189,7 @@ const LaunchToken = () => {
             console.log(error.message);
             handleError("Error occurred while sending transaction...");
           },
-        },
+        }
       );
     } catch (error) {
       handleError("Please try again...");
@@ -148,7 +198,7 @@ const LaunchToken = () => {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    detail: string,
+    detail: string
   ) => {
     setTokenDetails((prev) => ({
       ...prev,
@@ -169,12 +219,18 @@ const LaunchToken = () => {
   const ModalText = {
     mainText: ` ${tokenDetail.tokenName} Token Successfully Created`,
     subText: `Congratulations! Your token ${tokenDetail.tokenTicker} has been successfully created.`,
-    subText2: 'View your tokens',
-    link: '/mytokens',
-    myTokens: true
+    subText2: "View your tokens",
+    link: "/mytokens",
+    myTokens: true,
   };
   return (
-    <div className=" md:h-screen pt-[120px] flex flex-col md:flex-row gap-5 launchBG relative">
+    <motion.div
+      variants={Pageanime}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className=" md:h-screen pt-[120px] flex flex-col md:flex-row gap-5 launchBG relative"
+    >
       <img
         className="absolute bottom-0 left-0 "
         src="./images/launchbottom.png"
@@ -321,17 +377,21 @@ const LaunchToken = () => {
               id=""
             />
           </div>
-          <button
+          <motion.button
+            variants={BtnHover}
+            whileTap="onTap"
+            whileHover="hover"
+            animate="animate"
             type="submit"
             className="w-full bg-[#353535] border border-[#00ecff] uploadShdw text-lg font-medium rounded-xl py-4 px-4 mt-2 "
           >
             Create Token
-          </button>
+          </motion.button>
         </form>
       </div>
       {showModal && <Modal data={ModalText} setShowModal={setShowModal} />}
       {showLoader && <Loader text="Creating Token..." />}
-    </div>
+    </motion.div>
   );
 };
 

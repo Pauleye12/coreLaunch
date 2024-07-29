@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import LaunchToken from "./pages/LaunchToken";
 import TokenProfile from "./pages/TokenProfile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 //Web3 modal and wagmi Imports
 import { createWeb3Modal } from "@web3modal/wagmi/react";
@@ -75,7 +76,7 @@ createWeb3Modal({
 
 const App = () => {
   return (
-    <>
+    <AnimatePresence>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <Router>
@@ -91,7 +92,7 @@ const App = () => {
         </QueryClientProvider>
       </WagmiProvider>
       <BaseToast />
-    </>
+    </AnimatePresence>
   );
 };
 

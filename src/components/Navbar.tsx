@@ -18,16 +18,18 @@ const Navbar = () => {
             {" "}
             <Link
               to="/"
-              className="hover:text-[#00ECFF]"
+              className="hover:text-[#00ECFF] active:text-[#00ECFF] "
             >
               Home
             </Link>{" "}
-            { address &&
-            <Link
-              to="/mytokens"
-            >
-              MyTokens
-            </Link>}{" "}
+            {address && (
+              <Link
+                to="/mytokens"
+                className="hover:text-[#00ECFF] active:text-[#00ECFF]  "
+              >
+                MyTokens
+              </Link>
+            )}{" "}
           </div>
         </div>
         <div className="flex gap-3">
